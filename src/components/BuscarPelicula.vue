@@ -65,8 +65,10 @@
       <v-col cols="12" class="text-center">
         <v-pagination
           v-model="pagina"
+          density="compact"
           :length="Math.ceil(total/10)"
-          @update:model-value="getOmdbData"
+          :total-visible="5"
+          @update:model-value="getOmdbData()"
         ></v-pagination>
       </v-col>
     </v-row>
@@ -83,8 +85,8 @@ import { useAppStore } from '@/store/app'
 import { storeToRefs } from 'pinia'
 import noImage from '@/assets/no-image.png'
 
-const useApp = useAppStore()
-const { loading } = storeToRefs(useApp)
+const store = useAppStore()
+const { cargando } = storeToRefs(store)
 
 const modalDetalle = ref()
 const buscarTexto = ref('')
@@ -104,17 +106,17 @@ watch(buscarTexto, debounce(() => {
 
 const getOmdbData = async function() {
   try {
-    loading.value = true
-    const res = await axios.get(import.meta.env.VITE_HOST_OMDB, {
+    cargando.value = true
+    const response = await axios.get(import.meta.env.VITE_HOST_OMDB, {
       params: {
         apikey: import.meta.env.VITE_TOKEN_OMDB,
         s: buscarTexto.value,
         page: pagina.value,
       }
     })
-    if (res.data.Response === 'True') {
-      total.value = res.data.totalResults
-      peliculas.value = res.data.Search
+    if (response.data.Response === 'True') {
+      total.value = response.data.totalResults
+      peliculas.value = response.data.Search
     } else {
       total.value = 0
       peliculas.value = []
@@ -123,7 +125,7 @@ const getOmdbData = async function() {
     total.value = 0
     peliculas.value = []
   } finally {
-    loading.value = false
+    cargando.value = false
   }
 }
 

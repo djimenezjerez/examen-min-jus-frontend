@@ -10,12 +10,24 @@ const routes = [
         path: '',
         name: 'Home',
         component: () => import('@/views/Home.vue'),
-      },
-      {
+      }, {
         path: 'login',
         name: 'Login',
         component: () => import('@/views/Login.vue'),
-      },
+      }, {
+        path: '/usuarios',
+        children: [
+          {
+            path: '',
+            name: 'UsuariosIndex',
+            component: () => import('@/components/usuarios/Index.vue'),
+          }, {
+            path: ':id',
+            name: 'UsuariosForm',
+            component: () => import('@/components/usuarios/Form.vue'),
+          },
+        ],
+      }
     ],
   },
 ]

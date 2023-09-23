@@ -57,8 +57,8 @@ import axios from 'axios'
 import { useAppStore } from '@/store/app'
 import { storeToRefs } from 'pinia'
 
-const useApp = useAppStore()
-const { loading } = storeToRefs(useApp)
+const store = useAppStore()
+const { cargando } = storeToRefs(store)
 
 const pelicula = ref({})
 const modal = ref(false)
@@ -66,22 +66,22 @@ const calificacion = ref(0)
 
 const abrirModal = async function(idPelicula) {
   try {
-    loading.value = true
+    cargando.value = true
     calificacion.value = 0
-    const res = await axios.get(import.meta.env.VITE_HOST_OMDB, {
+    const response = await axios.get(import.meta.env.VITE_HOST_OMDB, {
       params: {
         apikey: import.meta.env.VITE_TOKEN_OMDB,
         i: idPelicula,
       }
     })
-    pelicula.value = res.data
+    pelicula.value = response.data
     calificacion.value = parseFloat(pelicula.value.Ratings[0].Value.split('/')[0])/2
     modal.value = true
   } catch(error) {
     modal.value = false
     console.log(error)
   } finally {
-    loading.value = false
+    cargando.value = false
   }
 }
 

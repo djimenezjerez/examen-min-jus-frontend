@@ -3,7 +3,7 @@
     <default-bar />
     <default-view />
     <v-overlay
-      :model-value="loading"
+      :model-value="cargando"
       class="align-center justify-center"
     >
       <v-progress-circular
@@ -22,6 +22,6 @@ import { useAppStore } from '@/store/app'
 import { storeToRefs } from 'pinia'
 
 const useApp = useAppStore()
-const { loading } = storeToRefs(useApp)
+const { cargando } = storeToRefs(useApp)
 
 </script>
