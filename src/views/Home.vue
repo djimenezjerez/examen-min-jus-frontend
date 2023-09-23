@@ -1,7 +1,7 @@
 <template>
-  <HelloWorld />
+  <BuscarPelicula />
 </template>
 
 <script setup>
-  import HelloWorld from '@/components/HelloWorld.vue'
+  import BuscarPelicula from '@/components/BuscarPelicula.vue'
 </script>
