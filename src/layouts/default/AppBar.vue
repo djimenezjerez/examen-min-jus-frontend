@@ -22,6 +22,9 @@
               <v-list-item :to="{ name: 'Peliculas' }">
                 <v-list-item-title>Mis películas</v-list-item-title>
               </v-list-item>
+              <v-list-item :to="{ name: 'UsuariosIndex' }" v-show="usuario.rol == 'ADMINISTRADOR'">
+                <v-list-item-title>Usuarios</v-list-item-title>
+              </v-list-item>
               <v-list-item @click="cerrarSesion">
                 <v-list-item-title>Cerrar sesión</v-list-item-title>
               </v-list-item>
