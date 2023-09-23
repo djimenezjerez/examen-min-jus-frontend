@@ -8,6 +8,7 @@
             variant="outlined"
             color="info"
             prepend-icon="mdi-movie"
+            :to="{ name: 'Peliculas' }"
           ></v-btn>
         </v-col>
         <v-col cols="2" v-if="route.name !== 'Login' && autenticado == false">

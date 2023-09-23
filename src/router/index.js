@@ -10,6 +10,9 @@ const routes = [
         path: '',
         name: 'Home',
         component: () => import('@/views/Home.vue'),
+        props: {
+          omdb: true
+        },
       }, {
         path: 'login',
         name: 'Login',
@@ -27,6 +30,13 @@ const routes = [
             component: () => import('@/components/usuarios/Form.vue'),
           },
         ],
+      }, {
+        path: '/peliculas',
+        name: 'Peliculas',
+        component: () => import('@/views/Home.vue'),
+        props: {
+          omdb: false
+        },
       }
     ],
   },

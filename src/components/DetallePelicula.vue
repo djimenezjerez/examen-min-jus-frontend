@@ -45,6 +45,7 @@
           color="info"
           block
           @click="modal = false"
+          prepend-icon="mdi-close"
         ></v-btn>
       </v-card-actions>
     </v-card>
@@ -57,8 +58,9 @@ import axios from 'axios'
 import { useAppStore } from '@/store/app'
 import { storeToRefs } from 'pinia'
 
+const emit = defineEmits(['refrescar'])
 const store = useAppStore()
-const { cargando } = storeToRefs(store)
+const { cargando, token } = storeToRefs(store)
 
 const pelicula = ref({})
 const modal = ref(false)
@@ -85,8 +87,56 @@ const abrirModal = async function(idPelicula) {
   }
 }
 
+const agregarPelicula = async function(pelicula) {
+  try {
+    cargando.value = true
+    await axios.post(`${import.meta.env.VITE_HOST_BACKEND}/api/v1/peliculas`, {
+      idImdb: pelicula.imdbID,
+      titulo: pelicula.Title,
+      poster: pelicula.Poster,
+    }, {
+      withCredentials: true,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${token.value}`,
+      },
+    })
+    cargando.value = false
+    return true
+  } catch(error) {
+    cargando.value = false
+    console.log(error)
+    return false
+  } finally {
+    emit('refrescar')
+  }
+}
+
+const removerPelicula = async function(idPelicula) {
+  try {
+    cargando.value = true
+    await axios.delete(`${import.meta.env.VITE_HOST_BACKEND}/api/v1/peliculas/${idPelicula}`, {
+      withCredentials: true,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${token.value}`,
+      },
+    })
+    cargando.value = false
+    return true
+  } catch(error) {
+    cargando.value = false
+    console.log(error)
+    return false
+  } finally {
+    emit('refrescar')
+  }
+}
+
 defineExpose({
-  abrirModal
+  abrirModal,
+  agregarPelicula,
+  removerPelicula,
 })
 
 </script>
