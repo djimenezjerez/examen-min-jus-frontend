@@ -68,6 +68,11 @@ import debounce from 'lodash.debounce'
 import { ref, watch } from 'vue'
 import axios from 'axios'
 import DetallePelicula from '@/components/DetallePelicula.vue'
+import { useAppStore } from '@/store/app'
+import { storeToRefs } from 'pinia'
+
+const useApp = useAppStore()
+const { loading } = storeToRefs(useApp)
 
 const modalDetalle = ref()
 const buscarTexto = ref('')
@@ -87,6 +92,7 @@ watch(buscarTexto, debounce(() => {
 
 const getOmdbData = async function() {
   try {
+    loading.value = true
     const res = await axios.get(import.meta.env.VITE_HOST_OMDB, {
       params: {
         apikey: import.meta.env.VITE_TOKEN_OMDB,
@@ -104,6 +110,8 @@ const getOmdbData = async function() {
   } catch {
     total.value = 0
     peliculas.value = []
+  } finally {
+    loading.value = false
   }
 }
 

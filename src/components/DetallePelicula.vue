@@ -54,6 +54,11 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
+import { useAppStore } from '@/store/app'
+import { storeToRefs } from 'pinia'
+
+const useApp = useAppStore()
+const { loading } = storeToRefs(useApp)
 
 const pelicula = ref({})
 const modal = ref(false)
@@ -61,6 +66,7 @@ const calificacion = ref(0)
 
 const abrirModal = async function(idPelicula) {
   try {
+    loading.value = true
     calificacion.value = 0
     const res = await axios.get(import.meta.env.VITE_HOST_OMDB, {
       params: {
@@ -74,6 +80,8 @@ const abrirModal = async function(idPelicula) {
   } catch(error) {
     modal.value = false
     console.log(error)
+  } finally {
+    loading.value = false
   }
 }
 
