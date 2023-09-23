@@ -5,6 +5,7 @@
         <v-text-field
           label="Buscar por título"
           variant="outlined"
+          density="compact"
           prepend-icon="mdi-magnify"
           v-model="buscarTexto"
           @keydown.esc="buscarTexto = ''"

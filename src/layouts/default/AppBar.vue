@@ -9,6 +9,17 @@
             color="info"
             prepend-icon="mdi-account"
             block
+            :to="{ name: 'Login' }"
+            v-if="route.name !== 'Login'"
+          ></v-btn>
+          <v-btn
+            text="Inicio"
+            variant="outlined"
+            color="info"
+            prepend-icon="mdi-home"
+            block
+            :to="{ name: 'Home' }"
+            v-else
           ></v-btn>
         </v-col>
       </v-row>
@@ -17,5 +28,7 @@
 </template>
 
 <script setup>
-  //
+import {useRoute} from 'vue-router'
+
+const route = useRoute()
 </script>
