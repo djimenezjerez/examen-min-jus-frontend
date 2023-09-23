@@ -58,7 +58,8 @@ const { modal } = toRefs(props)
 const onSubmit = async function() {
   try {
     cargando.value = true
-    await axios.delete(`${import.meta.env.VITE_HOST_BACKEND}/api/v1/${modal.value.url}/${modal.value.id}`, {withCredentials: true,
+    await axios.delete(`${import.meta.env.VITE_HOST_BACKEND}/api/v1/${modal.value.url}/${modal.value.id}`, {
+      withCredentials: true,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Authorization': `Bearer ${token.value}`,
