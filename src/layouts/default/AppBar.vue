@@ -2,16 +2,33 @@
   <v-app-bar flat>
     <v-container>
       <v-row dense justify="end">
-        <v-col cols="2">
-          <v-btn
-            text="Mis películas"
-            variant="outlined"
-            color="info"
-            prepend-icon="mdi-movie"
-            :to="{ name: 'Peliculas' }"
-          ></v-btn>
+        <v-col cols="12" sm="4" md="3" lg="2" v-if="route.name !== 'Login' && autenticado === true">
+          <v-menu>
+            <template v-slot:activator="{ props }">
+              <v-btn
+                v-bind="props"
+                variant="outlined"
+                color="info"
+                prepend-icon="mdi-account"
+                append-icon="mdi-menu-down-outline"
+              >
+                {{ usuario.nombre }}
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item :to="{ name: 'Home' }">
+                <v-list-item-title>Inicio</v-list-item-title>
+              </v-list-item>
+              <v-list-item :to="{ name: 'Peliculas' }">
+                <v-list-item-title>Mis películas</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="cerrarSesion">
+                <v-list-item-title>Cerrar sesión</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-col>
-        <v-col cols="2" v-if="route.name !== 'Login' && autenticado == false">
+        <v-col cols="12" sm="4" md="3" lg="2" v-if="route.name !== 'Login' && autenticado === false">
           <v-btn
             text="Iniciar Sesión"
             variant="outlined"
@@ -20,22 +37,13 @@
             :to="{ name: 'Login' }"
           ></v-btn>
         </v-col>
-        <v-col cols="2" v-else>
+        <v-col cols="12" sm="4" md="3" lg="2" v-if="route.name === 'Login'">
           <v-btn
             text="Inicio"
             variant="outlined"
             color="info"
             prepend-icon="mdi-home"
             :to="{ name: 'Home' }"
-          ></v-btn>
-        </v-col>
-        <v-col cols="2" v-if="autenticado == true">
-          <v-btn
-            text="Cerrar sesión"
-            variant="outlined"
-            color="info"
-            prepend-icon="mdi-exit-to-app"
-            @click="cerrarSesion"
           ></v-btn>
         </v-col>
       </v-row>
@@ -51,7 +59,7 @@ import axios from 'axios'
 
 const store = useAppStore()
 const { logout } = store
-const { cargando, token, autenticado } = storeToRefs(store)
+const { cargando, token, autenticado, usuario } = storeToRefs(store)
 const route = useRoute()
 const router = useRouter()
 

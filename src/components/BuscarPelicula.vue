@@ -1,5 +1,8 @@
 <template>
-  <v-container>
+  <v-container class="px-xl-16">
+    <div class="text-h6 text-md-h5 text-center">
+      {{ props.omdb ? 'Inicio' : 'Mis películas' }}
+    </div>
     <v-row justify="center">
       <v-col cols="12" sm="10" md="8" lg="6">
         <v-text-field
