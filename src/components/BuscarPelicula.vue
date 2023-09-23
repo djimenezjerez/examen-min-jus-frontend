@@ -14,7 +14,7 @@
       </v-col>
     </v-row>
     <v-row justify="center" v-show="total == 0">
-      <v-col cols="12" class="text-center">No se encontraron resultados</v-col>
+      <v-col cols="12" class="text-center">Sin resultados</v-col>
     </v-row>
     <v-row justify="center" v-show="total > 0">
       <v-col
@@ -32,9 +32,19 @@
           elevation="4"
         >
           <v-img
+            :lazy-src="noImage"
             :src="pelicula.Poster"
             height="300px"
-          ></v-img>
+          >
+            <template v-slot:placeholder>
+              <div class="d-flex align-center justify-center fill-height">
+                <v-progress-circular
+                  color="grey-lighten-4"
+                  indeterminate
+                ></v-progress-circular>
+              </div>
+            </template>
+          </v-img>
           <v-card-title class="text-center">
             {{ pelicula.Title }}
           </v-card-title>
@@ -70,6 +80,7 @@ import axios from 'axios'
 import DetallePelicula from '@/components/DetallePelicula.vue'
 import { useAppStore } from '@/store/app'
 import { storeToRefs } from 'pinia'
+import noImage from '@/assets/no-image.png'
 
 const useApp = useAppStore()
 const { loading } = storeToRefs(useApp)
